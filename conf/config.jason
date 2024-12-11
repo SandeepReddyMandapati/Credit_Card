@@ -1,0 +1,11 @@
+{
+    "dev": {
+        "input_path": "data/raw/*.csv",
+        "output_path": "data/parquet"
+    },
+    "prod": {
+        "input_path": "s3://bucket-name/raw/*.csv",
+        "output_path": "s3://bucket-name/parquet"
+    }
+}
+
