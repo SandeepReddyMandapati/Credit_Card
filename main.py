@@ -1,24 +1,25 @@
 import sys
-from library import DataReader, DataTransformations, UtilityFunctions
+from library import Data_Reader, transformations, utils
 
 if __name__ == "__main__":
     # Validate arguments
     if len(sys.argv) < 2:
-        print("Please specify the environment (e.g., dev or prod)")
+        print("Usage: python main.py <environment> (e.g., dev or prod)")
         sys.exit(-1)
-    
+
     environment = sys.argv[1]
+    print(f"Environment specified: {environment}")
 
     # Initialize Spark session
-    spark = UtilityFunctions.get_spark_session(environment)
+    spark = utils.get_spark_session(environment)
 
     # Read data
-    df = DataReader.read_bulk_files(spark, "Data/creditcard.csv")
+    df = Data_Reader.read_bulk_files(spark, "Data/creditcard.csv")
 
-    df_transformed = DataTransformations.clean_and_transform_data(df)     #data cleaning
+    df_transformed = transformations.clean_and_transform_data(df)     #data cleaning
 
-    DataReader.save_to_parquet(df_transformed, "data/parquet")   #for dataframes transformations
+    Data_Reader.save_to_parquet(df_transformed, "data/parquet")   #for dataframes transformations
 
-    DataTransformations.execute_queries(spark, "data/parquet")    # for SQL queries
+    transformations.execute_queries(spark, "data/parquet")    # for SQL queries
 
     print("Application completed!")
